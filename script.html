@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Front end Validate</title>
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	<!-- -->
+	<!-- jQuery validate -->
+
+	<!-- -->
+	<!-- Bootstrap CDN -->
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<!-- -->
+	<!-- Selectpicker BS -->
+	<script type="text/jvascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+	<link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css" rel="stylesheet">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Chewy|Patua+One|Archivo+Narrow" rel="stylesheet">
+	<!-- -->
+	<!-- stylesheet -->
+	<style type="text/css">
+		body {
+			font-family: Arial, Verdana, sans-serif;
+			background-color: #EFEFEF;
+			vertical-align: baseline;
+			border: 0;
+			width: 100%;
+		}
+		.header-font {
+			font-family: 'Chewy', cursive;
+		}
+		.label-font {
+			font-family: 'Archivo Narrow', sans-serif;
+		}
+		.with-margin {
+			margin-top: 25px;
+		}
+		.header-padding {
+			padding-bottom: 10px;
+		}
+		.set-padding, .little-gap {
+			padding-top: 15px;
+		}
+		.btn-cool-text {
+			font-family: 'Archivo Narrow', sans-serif;	
+			font-size: 16px;
+			border-radius: 0px;
+		}
+		.mandatory {
+			color: rgb(200, 0, 0);
+		}
+		.modal-header {
+			border-top-left-radius: 6px;
+			border-top-right-radius: 6px;
+		}
+	</style>
+	<!-- -->
+</head>
+<body>
+<!-- container -->
+<div class="container-fluid">
+	<h2 class="header-font">Make your choice.</h2>
+	<div class="little-gap">
+		<label class="label-font"><span class="mandatory">Fruits</span></label>
+	</div>
+	<div class="col-md-6">
+		<select required="true" class="form-control">
+		  <option value="Not Answered">Not Answered</option>
+		  <option value="Cherry">Cherry</option>
+		  <option value="Papaya">Papaya</option>
+		  <option value="Lemon">Lemon</option>
+		  <option value="Pomegranade">Pomegranade</option>
+		</select>
+	</div>
+	<br />
+	<div class="set-padding with-margin">
+		<label class="label-font"><span class="mandatory">Phones</span></label>
+	</div>
+	<div class="col-md-6">
+		<select required="true" class="form-control">
+		  <option value="Not Answered">Not Answered</option>
+		  <option value="Samsung">Samsung</option>
+		  <option value="iPhone">iPhone</option>
+		  <option value="Huawei">Huawei</option>
+		</select>
+	</div>
+	<br />
+	<div class="set-padding with-margin">
+		<label class="label-font">Character</label>
+	</div>
+	<div class="col-md-6">
+		<select class="form-control">
+		  <option value="Not Answered">Not Answered</option>
+		  <option value="Luigi">Luigi</option>
+		  <option value="Mario">Mario</option>
+		  <option value="Peach">Peach</option>
+		  <option value="Bowser">Bowser</option>
+		</select>
+	</div>
+	<div class="col-md-12 with-margin">	
+		<button role="button" 
+				class="btn btn-success no-borders btn-cool-text" 
+				onclick="return optionValidation()">
+		Validate
+		</button>
+	</div>
+</div>
+<!-- -->
+<!-- modal -->
+<div class="modal fade" id="warning">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- -->
+<!-- script -->
+<script type="text/javascript">
+	var $ = jQuery.noConflict();
+	
+	$(document).ready(function() {
+		console.log('DOM initialized');
+		//set focus on the first
+		$("select:first").focus();
+
+		//only the labels with span as children
+		$('label')
+			.children('span')
+			.append('<large> *</large>')
+			.children('large')
+			.css('font-family', 'Arial, sans-serif');
+	});
+
+	function optionValidation() {
+	    var ans = [];
+	    $('select').filter('[required]:visible').each(function() {
+	        ans.push(this.value);
+	    });
+	    if (ans.length != 0) {
+	        ans.forEach(function(a, b) {
+	        	console.log(a, b);
+	            if (a === 'Not Answered') {
+	                showAlert(a);
+	            }
+	        });
+    	}
+    	return false;
+	};
+
+	function showAlert(a) {
+		$('.modal-title')
+			.text('Hey, wait a minute!')
+			.css('font-family', 'Archivo Narrow, sans-serif');
+		$('.modal-body')
+			.children('p')
+			.text('"' + a + '" is not a valid option, choose wisely.');
+		$('.modal-header')
+			.css({
+				'background-color' : 'rgb(242, 222, 222)',
+				'color' : 'rgb(169, 68, 66)',
+			});
+
+		$('#warning').modal('show');
+	};
+</script>
+<!-- -->
+</body>
+</html>
